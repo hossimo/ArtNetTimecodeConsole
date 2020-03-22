@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <RootNamespace>ArtNetTimecode</RootNamespace>
+    <StartupObject></StartupObject>
+    <Authors>Anthony Headley</Authors>
+    <Company>Down Right Technical Inc.</Company>
+    <Description>Console Application that outputs Art-Net Timecode</Description>
+    <Copyright>Down Right Technical Inc 2020</Copyright>
+    <Configurations>Debug;Release;Deploy</Configurations>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+</Project>

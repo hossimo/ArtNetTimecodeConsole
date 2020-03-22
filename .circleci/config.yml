@@ -1,0 +1,42 @@
+version: 2.1
+
+orbs:
+    win: circleci/windows@2.2.0
+
+jobs:
+    build_win_x64:
+        executor: win/default    
+        steps:
+            - checkout
+            - run:
+                name: Publish win-x64
+                command: | 
+                    mkdir C:\temp
+                    dotnet publish --nologo -c Release -r win-x64 -f netcoreapp3.0 --no-self-contained --output C:\temp\ArtNetTimecodeConsole
+                    $ProgressPreference = "SilentlyContinue"
+                    Compress-Archive C:\temp\ArtNetTimecodeConsole C:\temp\ArtnetTimecodeConsole-x64.zip
+            - store_artifacts:
+                path: C:\temp\ArtnetTimecodeConsole-x64.zip
+                destination: ArtnetTimecodeConsole-x64.zip
+
+    build_win_x86:
+        executor: win/default
+        steps:
+            - checkout
+            - run:
+                name: Publish win-x86
+                command: |
+                    mkdir C:\temp
+                    dotnet publish --nologo -c Release -r win-x86 -f netcoreapp3.0 --no-self-contained --output C:\temp\ArtNetTimecodeConsole
+                    $ProgressPreference = "SilentlyContinue"
+                    Compress-Archive C:\temp\ArtNetTimecodeConsole C:\temp\ArtnetTimecodeConsole-x86.zip
+            - store_artifacts:
+                path: C:\temp\ArtnetTimecodeConsole-x86.zip
+                destination: ArtnetTimecodeConsole-x86.zip
+
+workflows:
+    version: 2
+    build_all:
+        jobs:
+            - build_win_x86
+            - build_win_x64
