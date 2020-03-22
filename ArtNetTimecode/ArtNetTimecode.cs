@@ -31,7 +31,7 @@ namespace ArtNetTimecode
                     Console.WriteLine($"ip\t destination address in the form of x.x.x.x");
                     return;
                 }
-                Console.WriteLine($"Uni-Casting Artnet-TimeCode to {args[0]}, Ctrl + C to exit");
+                Console.WriteLine($"Unicasting Artnet-TimeCode to {args[0]}, Ctrl + C to exit");
             }
             else {
                 Console.WriteLine($"Broadcasting Artnet-TimeCode, Ctrl + C to exit");
