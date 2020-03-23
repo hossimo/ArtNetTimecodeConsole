@@ -21,11 +21,13 @@ jobs:
       run: dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
     - name: Zip files
       run: zip -r ArtNetTimecodeConsole.zip ./ArtNetTimecodeConsole
-    - uses: actions/upload-artifact@v1
+    - name: Upload folder
+      uses: actions/upload-artifact@v1
       with:
         name: folder
         path: ./ArtNetTimecodeConsole
-    - uses: actions/upload-artifact@v1
-       with:
+    - name: Upload file
+      uses: actions/upload-artifact@v1
+      with:
         name: file
         path: ArtNetTimecodeConsole.zip
