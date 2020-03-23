@@ -78,6 +78,7 @@ jobs:
         run: dotnet publish --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Make Executable
         run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
+      - run: ls -la ./ArtNetTimecodeConsole
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
