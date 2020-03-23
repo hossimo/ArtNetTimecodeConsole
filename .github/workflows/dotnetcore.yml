@@ -22,10 +22,10 @@ jobs:
     - name: Zip files
       run: zip -r ArtNetTimecodeConsole.zip ./ArtNetTimecodeConsole
     - uses: actions/upload-artifact@v1
-        with:
-          name: folder
-          path: ./ArtNetTimecodeConsole
+      with:
+        name: folder
+        path: ./ArtNetTimecodeConsole
     - uses: actions/upload-artifact@v1
-        with:
-          name: file
-          path: ArtNetTimecodeConsole.zip
+       with:
+        name: file
+        path: ArtNetTimecodeConsole.zip
