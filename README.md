@@ -12,7 +12,7 @@
 
  ## Notes
  
- This application required the .NET Core Runtime in order to run. you can download it from Microsoft for Windows, Linux, macOS and Docker. choose your Platform and download the .NET Core Runtime or SDK depending on your platform.
+ This application required the .NET Core Runtime in order to run. [You can download it from Microsoft for Windows, Linux, macOS and Docker](https://dotnet.microsoft.com/download). choose your Platform and download the .NET Core Runtime or SDK depending on your platform.
 
  In this version the local computers *time of day* will be used for the ArtNetTimecode output.
 
