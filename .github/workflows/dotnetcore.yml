@@ -58,4 +58,26 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: ArtNetTimecodeConsole-x86
+          path: ./ArtNetTimecodeConsole
+
+  publish-macOS-x64:
+    name: Publish macOS x64
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: download checkout
+        uses: actions/download-artifact@v1
+        with:
+          name: checkout
+          path: .
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+      - name: Publish macOS-x86
+        run: dotnet publish --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ArtNetTimecodeConsole-macOS-x64
           path: ./ArtNetTimecodeConsole          
