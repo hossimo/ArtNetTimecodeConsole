@@ -20,4 +20,4 @@ jobs:
     - name: Publish with dotnet
       run: dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
     - name: Zip files
-      run: zip ./ArtNetTimecodeConsole ArtNetTimecodeConsole.zip
+      run: zip -r ArtNetTimecodeConsole.zip ./ArtNetTimecodeConsole
