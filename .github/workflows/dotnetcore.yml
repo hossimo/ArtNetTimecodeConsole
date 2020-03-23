@@ -7,27 +7,52 @@ on:
     branches: [ githubactions ]
 
 jobs:
-  build:
-
+  checkout:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
-    - name: Publish with dotnet
-      run: dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
-    - name: Zip files
-      run: zip -r ArtNetTimecodeConsole.zip ./ArtNetTimecodeConsole
-    - name: Upload folder
-      uses: actions/upload-artifact@v1
-      with:
-        name: folder
-        path: ./ArtNetTimecodeConsole
-    - name: Upload file
-      uses: actions/upload-artifact@v1
-      with:
-        name: file
-        path: ArtNetTimecodeConsole.zip
+      - uses: actions/checkout@v2
+      - uses: actions/upload-artifact@v1
+        name: checkout
+        path: .
+
+  publish-win-x64:
+    name: Publish Windows x64
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: download checkout
+        uses: actions/download-artifact@v1
+        with:
+          name: checkout 
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+      - name: Publish win-x64
+        run: dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ArtNetTimecodeConsole-x64
+          path: ./ArtNetTimecodeConsole
+
+  publish-win-x86:
+    name: Publish Windows x86
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: download checkout
+        uses: actions/download-artifact@v1
+        with:
+          name: checkout 
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+      - name: Publish win-x86
+        run: dotnet publish --nologo --configuration Release --runtime win-x86 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ArtNetTimecodeConsole-x86
+          path: ./ArtNetTimecodeConsole          
