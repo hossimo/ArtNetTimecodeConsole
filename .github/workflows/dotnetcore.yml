@@ -12,8 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/upload-artifact@v1
-        name: checkout
-        path: ${pwd}
+        with:
+          name: checkout
+          path: .
 
   publish-win-x64:
     name: Publish Windows x64
