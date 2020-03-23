@@ -76,7 +76,7 @@ jobs:
           dotnet-version: 3.1.101
       - name: Publish macOS-x86
         run: dotnet publish --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
-      -name: Make Executable
+      - name: Make Executable
         run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
       - name: Upload artifact
         uses: actions/upload-artifact@v1
