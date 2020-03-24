@@ -11,21 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/upload-artifact@v1
+      - name: Cache checkout
+        uses: actions/cache@v1
         with:
-          name: checkout
-          path: .
+          path : .
+          key: ${{ runner.os }}-${{ github.sha }}
 
   publish-win-x64:
     name: Publish Windows x64
     needs: checkout
     runs-on: ubuntu-latest
     steps:
-      - name: download checkout
-        uses: actions/download-artifact@v1
+      - name: Cache checkout
+        uses: actions/cache@v1
         with:
-          name: checkout
-          path: .
+          path : .
+          key: ${{ runner.os }}-${{ github.sha }}
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -43,11 +44,11 @@ jobs:
     needs: checkout
     runs-on: ubuntu-latest
     steps:
-      - name: download checkout
-        uses: actions/download-artifact@v1
+      - name: Cache checkout
+        uses: actions/cache@v1
         with:
-          name: checkout
-          path: .
+          path : .
+          key: ${{ runner.os }}-${{ github.sha }}
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
@@ -65,11 +66,11 @@ jobs:
     needs: checkout
     runs-on: ubuntu-latest
     steps:
-      - name: download checkout
-        uses: actions/download-artifact@v1
+      - name: Cache checkout
+        uses: actions/cache@v1
         with:
-          name: checkout
-          path: .
+          path : .
+          key: ${{ runner.os }}-${{ github.sha }}
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
