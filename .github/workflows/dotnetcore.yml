@@ -2,9 +2,9 @@ name: .NET Core
 
 on:
   push:
-    branches: [ feature-switch-to-cache ]
+    branches: [ master ]
   pull_request:
-    branches: [ feature-switch-to-cache ]
+    branches: [ master ]
 
 jobs:
   checkout:
@@ -66,11 +66,11 @@ jobs:
     needs: checkout
     runs-on: ubuntu-latest
     steps:
-      - name: download checkout
-        uses: actions/download-artifact@v1
+      - name: Cache checkout
+        uses: actions/cache@v1
         with:
-          name: checkout
-          path: .
+          path : .
+          key: ${{ runner.os }}-${{ github.sha }}
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
