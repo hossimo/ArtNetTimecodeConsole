@@ -11,6 +11,8 @@
  **ip** - (optional) if included ArtNetTimecode is unicast to the IP address, else ArtNetTimecode will be broadcast (255.255.255.255)
 
  ## Notes
+ 
+ This application required the .NET Core Runtime in order to run. [You can download it from Microsoft for Windows, Linux, macOS and Docker](https://dotnet.microsoft.com/download). choose your Platform and download the .NET Core Runtime or SDK depending on your platform.
 
  In this version the local computers *time of day* will be used for the ArtNetTimecode output.
 
