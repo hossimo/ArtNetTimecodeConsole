@@ -13,6 +13,18 @@ namespace ArtNetTimecode
         FPS30 = 3
     }
 
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ArtNetStub
+    {
+        public string id;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 8)]
+        public ushort opcode;
+        [MarshalAs(UnmanagedType.U2, SizeConst = 2)]
+        public byte versionHi;
+        [MarshalAs(UnmanagedType.U1, SizeConst = 1)]
+        public byte versionLo;
+    }
+
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct ArtNetTimecodePacket
@@ -39,5 +51,21 @@ namespace ArtNetTimecode
         public byte hours;
         [MarshalAs(UnmanagedType.U1, SizeConst = 1)]
         public Types type;
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public struct ArtNetPollPacket
+    {
+        public string id;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 8)]
+        public ushort opcode;
+        [MarshalAs(UnmanagedType.U2, SizeConst = 2)]
+        public byte versionHi;
+        [MarshalAs(UnmanagedType.U1, SizeConst = 1)]
+        public byte versionLo;
+        [MarshalAs(UnmanagedType.U1, SizeConst = 1)]
+        public byte flags;
+        [MarshalAs(UnmanagedType.U1, SizeConst = 1)]
+        public byte priority;
     }
 }

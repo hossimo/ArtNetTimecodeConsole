@@ -12,6 +12,10 @@ namespace ArtNetTimecode
         static bool run;
         static void Main(string[] args)
         {
+            // Start Receiver Thread
+            Thread receiverThread = new Thread(new ThreadStart(ArtnetReceiver.ThreadProc));
+            receiverThread.Start();
+
             // catch control - C
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
 
