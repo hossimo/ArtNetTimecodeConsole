@@ -15,11 +15,15 @@ namespace ArtNetTimecode
             run = true;
 
             // Start Receiver Thread
-            Thread receiverThread = new Thread(new ThreadStart(ArtnetReceiver.ThreadProc))
+            ArtnetReceiver receiver = new ArtnetReceiver();
+            Thread receiverThread = new Thread(new ThreadStart(receiver.ThreadProc))
             {
                 Name = "Art-Net Receiver"
             };
             receiverThread.Start();
+
+            // disable quick select
+            Tools.DisableQuickSelect();
 
             // catch control - C
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
@@ -93,8 +97,9 @@ namespace ArtNetTimecode
             //receiverThread.Abort
             Marshal.FreeHGlobal(ptr);
             Console.CursorVisible = true;
-            ArtnetReceiver.StopThread();
+            receiver.StopThread();
             receiverThread.Join();
+            Tools.RestoreConsoleMode();
             return;
         }
 

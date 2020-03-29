@@ -2,24 +2,18 @@
 using System.Threading;
 using System.Net;
 using System.Net.Sockets;
-using System.IO;
-using System.Runtime.InteropServices;
 using System.Collections.Generic;
 
 namespace ArtNetTimecode
 {
-    public static class ArtnetReceiver
+    public class ArtnetReceiver : ArtnetIO
     {
-        static bool running = true;
-        const int ARTNET_PORT = 6454;
-
-
-        public static void StopThread()
+        public void StopThread()
         {
             running = false;
         }
 
-        public static void ThreadProc()
+        public void ThreadProc()
         {
             UdpClient udpClient = new UdpClient(ARTNET_PORT)
             {
