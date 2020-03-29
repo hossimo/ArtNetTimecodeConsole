@@ -8,10 +8,11 @@ using System.Collections.Generic;
 
 namespace ArtNetTimecode
 {
-    public class ArtnetReceiver
+    public static class ArtnetReceiver
     {
-        static bool running;
+        static bool running = true;
         const int ARTNET_PORT = 6454;
+
 
         public static void StopThread()
         {
@@ -20,8 +21,10 @@ namespace ArtNetTimecode
 
         public static void ThreadProc()
         {
-            UdpClient udpClient = new UdpClient(ARTNET_PORT);
-            udpClient.EnableBroadcast = true;
+            UdpClient udpClient = new UdpClient(ARTNET_PORT)
+            {
+                EnableBroadcast = true
+            };
             IPEndPoint remote = new IPEndPoint(IPAddress.Any, ARTNET_PORT);
 
             Console.WriteLine($"Listning on port {ARTNET_PORT}");
