@@ -12,8 +12,13 @@ namespace ArtNetTimecode
         static bool run;
         static void Main(string[] args)
         {
+            run = true;
+
             // Start Receiver Thread
-            Thread receiverThread = new Thread(new ThreadStart(ArtnetReceiver.ThreadProc));
+            Thread receiverThread = new Thread(new ThreadStart(ArtnetReceiver.ThreadProc))
+            {
+                Name = "Art-Net Receiver"
+            };
             receiverThread.Start();
 
             // catch control - C
@@ -46,7 +51,7 @@ namespace ArtNetTimecode
             ArtNetTimecodePacket packet = new ArtNetTimecodePacket
             {
                 id = "Art-Net",
-                opcode = 0x9700,
+                opcode = (OpCode) 0x9700,
                 versionHi = 14,
                 versionLo = 14,
                 filter1 = 0,
@@ -65,7 +70,6 @@ namespace ArtNetTimecode
             UdpClient c = new UdpClient();
             IPEndPoint endPoint = new IPEndPoint(serverAddress, 6454);
 
-            run = true;
 
             while (run)
             {
@@ -78,6 +82,7 @@ namespace ArtNetTimecode
 
                 Marshal.StructureToPtr(packet, ptr, true);
                 Marshal.Copy(ptr, sendBuffer, 0, size);
+
                 c.Send(sendBuffer, size, endPoint);
                 Console.SetCursorPosition(0, currentLine);
                 Console.CursorVisible = false;
@@ -85,8 +90,11 @@ namespace ArtNetTimecode
                 Thread.Sleep(1000/60);
             }
             Console.WriteLine("\nExitting");
+            //receiverThread.Abort
             Marshal.FreeHGlobal(ptr);
             Console.CursorVisible = true;
+            ArtnetReceiver.StopThread();
+            receiverThread.Join();
             return;
         }
 
