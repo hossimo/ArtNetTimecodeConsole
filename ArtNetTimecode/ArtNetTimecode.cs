@@ -12,6 +12,20 @@ namespace ArtNetTimecode
         static bool run;
         static void Main(string[] args)
         {
+            run = true;
+
+            // Start Receiver Thread
+            ArtnetReceiver receiver = new ArtnetReceiver();
+            Thread receiverThread = new Thread(new ThreadStart(receiver.ThreadProc))
+            {
+                Name = "Art-Net Receiver"
+            };
+
+            receiverThread.Start();
+
+            // disable quick select
+            Tools.DisableQuickSelect();
+
             // catch control - C
             Console.CancelKeyPress += new ConsoleCancelEventHandler(CancelHandler);
 
@@ -38,51 +52,34 @@ namespace ArtNetTimecode
                 serverAddress = IPAddress.Broadcast;
             }
 
-
-            ArtNetTimecodePacket packet = new ArtNetTimecodePacket
+            // Start Sender Thread
+            ArtNetTimecodeSender sender = new ArtNetTimecodeSender(serverAddress, Types.FPS30);
+            Thread senderThread = new Thread(new ThreadStart(sender.ThreadProc))
             {
-                id = "Art-Net",
-                opcode = 0x9700,
-                versionHi = 14,
-                versionLo = 14,
-                filter1 = 0,
-                filter2 = 0,
-                hours = 0,
-                minutes = 0,
-                seconds = 0,
-                frames = 0,
-                type = Types.FPS30
+                Name = "Aet-Net Sender"
             };
+            senderThread.Start();
 
-            byte[] sendBuffer = new byte[19];
-            int size = 19;
-            IntPtr ptr = Marshal.AllocHGlobal(size);
 
-            UdpClient c = new UdpClient();
-            IPEndPoint endPoint = new IPEndPoint(serverAddress, 6454);
-
-            run = true;
 
             while (run)
             {
-                int currentLine = Console.CursorTop;
-                DateTime localTime = DateTime.Now;
-                packet.hours = (byte)localTime.Hour;
-                packet.minutes = (byte)localTime.Minute;
-                packet.seconds = (byte)localTime.Second;
-                packet.frames = (byte) (localTime.Millisecond * 0.001 * 30);
-
-                Marshal.StructureToPtr(packet, ptr, true);
-                Marshal.Copy(ptr, sendBuffer, 0, size);
-                c.Send(sendBuffer, size, endPoint);
-                Console.SetCursorPosition(0, currentLine);
-                Console.CursorVisible = false;
-                Console.Write($"Sent: {packet.hours:00}:{packet.minutes:00}:{packet.seconds:00}:{packet.frames:00}");
-                Thread.Sleep(1000/60);
+                DateTime t;
+                ;
+                if (sender.queue != null && sender.queue.TryDequeue(out t))
+                {
+                    int currentLine = Console.CursorTop;
+                    Console.WriteLine($"> {t.Hour:00}:{t.Minute:00}:{t.Second:00}:{t.Millisecond / sender.Frames:00} @ {sender.Frames}");
+                    Console.SetCursorPosition(0, currentLine);
+                    Console.CursorVisible = false;
+                }
             }
-            Console.WriteLine("\nExitting");
-            Marshal.FreeHGlobal(ptr);
             Console.CursorVisible = true;
+            receiver.StopThread();
+            receiverThread.Join();
+            sender.StopThread();
+            senderThread.Join();
+            Tools.RestoreConsoleMode();
             return;
         }
 
