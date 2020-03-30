@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Net;
-using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Threading;
-
 
 namespace ArtNetTimecode
 {
@@ -64,15 +61,22 @@ namespace ArtNetTimecode
 
             while (run)
             {
-                DateTime t;
-                ;
-                if (sender.queue != null && sender.queue.TryDequeue(out t))
+                DateTime t = sender.LastSent();
+                if (t != null)
                 {
                     int currentLine = Console.CursorTop;
                     Console.WriteLine($"> {t.Hour:00}:{t.Minute:00}:{t.Second:00}:{t.Millisecond / sender.Frames:00} @ {sender.Frames}");
                     Console.SetCursorPosition(0, currentLine);
                     Console.CursorVisible = false;
                 }
+                //Thread.Sleep(100);
+                //if (sender.queue != null && sender.queue.TryDequeue(out t))
+                //{
+                //    int currentLine = Console.CursorTop;
+                //    Console.WriteLine($"> {t.Hour:00}:{t.Minute:00}:{t.Second:00}:{t.Millisecond / sender.Frames:00} @ {sender.Frames}");
+                //    Console.SetCursorPosition(0, currentLine);
+                //    Console.CursorVisible = false;
+                //}
             }
             Console.CursorVisible = true;
             receiver.StopThread();

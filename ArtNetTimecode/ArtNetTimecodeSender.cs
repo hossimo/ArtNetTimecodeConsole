@@ -3,28 +3,18 @@ using System.Threading;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Collections.Concurrent;
+//using System.Collections.Concurrent;
 
 namespace ArtNetTimecode
 {
     public class ArtNetTimecodeSender : ArtnetIO
     {
         public IPAddress sendToAddress;
-        public ConcurrentQueue<DateTime> queue = new ConcurrentQueue<DateTime>();
+        //public ConcurrentQueue<DateTime> queue = new ConcurrentQueue<DateTime>();
+        private DateTime _lastSent; // I think this if safe since there is a single reader and writer
+        private Types _type;
 
-        private Types type;
-        float frames;
-         public float Frames{
-            get
-            {
-                return frames;
-            }
-
-            private set
-            {
-                frames = value;
-            }
-        }
+        public float Frames { get; private set; }
 
         // Initalize ArtNetTimecode Packet
         ArtNetTimecodePacket packet = new ArtNetTimecodePacket
@@ -43,7 +33,7 @@ namespace ArtNetTimecode
         };
 
         // Make a byte array for our structure
-        static int size = Marshal.SizeOf(typeof(ArtNetTimecodePacket));
+        static readonly int size = Marshal.SizeOf(typeof(ArtNetTimecodePacket));
         byte[] sendBuffer = new byte[size];
         IntPtr ptr = Marshal.AllocHGlobal(size);
 
@@ -57,8 +47,8 @@ namespace ArtNetTimecode
         public void SetFrames (Types type)
         {
             packet.type = type;
-            this.type = type;
-            frames = type switch
+            this._type = type;
+            Frames = type switch
             {
                 Types.FPS24 => 24,
                 Types.FPS25 => 25,
@@ -66,6 +56,11 @@ namespace ArtNetTimecode
                 Types.FPS30 => 30,
                 _ => 30,
             };
+        }
+
+        public DateTime LastSent()
+        {
+            return _lastSent;
         }
 
         public void ThreadProc()
@@ -76,24 +71,25 @@ namespace ArtNetTimecode
             };
 
             IPEndPoint endPoint = new IPEndPoint(sendToAddress, ARTNET_PORT);
-            Console.WriteLine($"Sender Thread Started to {endPoint} as {type}");
+            Console.WriteLine($"Sender Thread Started to {endPoint} as {_type}");
 
 
             while (running)
             {
                 DateTime time = DateTime.Now;
-                queue.Enqueue(time);
+                //queue.Enqueue(time);
+                _lastSent = time;
                 packet.hours = (byte)time.Hour;
                 packet.minutes = (byte)time.Minute;
                 packet.seconds = (byte)time.Second;
-                packet.frames = (byte)(time.Millisecond * 0.001 * frames);
+                packet.frames = (byte)(time.Millisecond * 0.001 * Frames);
 
                 Marshal.StructureToPtr(packet, ptr, true);
                 Marshal.Copy(ptr, sendBuffer, 0, size);
 
                 udpClient.Send(sendBuffer, size, endPoint);
 
-                Thread.Sleep((int)(1000/frames));
+                Thread.Sleep((int)(1000/Frames));
             }
             Console.WriteLine("\nExitting Sender");
             Marshal.FreeHGlobal(ptr);
