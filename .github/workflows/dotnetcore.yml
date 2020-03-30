@@ -75,7 +75,7 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 3.1.101
-      - name: Publish macOS-x86
+      - name: Publish macOS-x64
         run: dotnet publish --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Make Executable
         run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
@@ -84,4 +84,29 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: ArtNetTimecodeConsole-macOS-x64
+          path: ./ArtNetTimecodeConsole
+  
+  publish-linux-x64:
+    name: Publish Linux x64
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache checkout
+        uses: actions/cache@v1
+        with:
+          path : .
+          key: ${{ runner.os }}-${{ github.sha }}
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+      - name: Publish Linux-x64
+        run: dotnet publish --nologo --configuration Release --runtime linux-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+      - name: Make Executable
+        run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
+      - run: ls -la ./ArtNetTimecodeConsole
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ArtNetTimecodeConsole-Linux-x64
           path: ./ArtNetTimecodeConsole
