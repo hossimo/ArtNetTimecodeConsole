@@ -8,11 +8,6 @@ namespace ArtNetTimecode
 {
     public class ArtnetReceiver : ArtnetIO
     {
-        public void StopThread()
-        {
-            running = false;
-        }
-
         public void ThreadProc()
         {
             UdpClient udpClient = new UdpClient(ARTNET_PORT)
@@ -21,7 +16,7 @@ namespace ArtNetTimecode
             };
             IPEndPoint remote = new IPEndPoint(IPAddress.Any, ARTNET_PORT);
 
-            Console.WriteLine($"Listning on port {ARTNET_PORT}");
+            Console.WriteLine($"Receiver Thread Started on port {ARTNET_PORT}");
             Console.WriteLine();
 
             while (running)

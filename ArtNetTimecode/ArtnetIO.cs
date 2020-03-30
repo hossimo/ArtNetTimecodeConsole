@@ -11,5 +11,9 @@ namespace ArtNetTimecode
         public bool running = true;
         public const int ARTNET_PORT = 6454;
 
+        public void StopThread()
+        {
+            running = false;
+        }
     }
 }
