@@ -30,9 +30,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.101
+          dotnet-version: 3.1.201
       - name: Publish win-x64
-        run: dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -52,9 +52,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.101
+          dotnet-version: 3.1.201
       - name: Publish win-x86
-        run: dotnet publish --nologo --configuration Release --runtime win-x86 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --nologo --configuration Release --runtime win-x86 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -74,9 +74,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.101
+          dotnet-version: 3.1.201
       - name: Publish macOS-x64
-        run: dotnet publish --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Make Executable
         run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
       - run: ls -la ./ArtNetTimecodeConsole
@@ -99,9 +99,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.101
+          dotnet-version: 3.1.201
       - name: Publish Linux-x64
-        run: dotnet publish --nologo --configuration Release --runtime linux-x64 --framework netcoreapp3.0 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --nologo --configuration Release --runtime linux-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Make Executable
         run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
       - run: ls -la ./ArtNetTimecodeConsole
