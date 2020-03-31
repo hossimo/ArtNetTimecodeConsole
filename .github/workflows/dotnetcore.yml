@@ -11,8 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Building
-        run: dotnet build --nologo -- configuration Release --framework netcoreapp3.1 --output ./ArtNetTimecodeConsole
       - name: Cache checkout
         uses: actions/cache@v1
         with:
