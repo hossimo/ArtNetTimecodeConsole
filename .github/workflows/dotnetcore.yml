@@ -34,7 +34,7 @@ jobs:
         with:
           dotnet-version: 3.1.201
       - name: Publish win-x64
-        run: dotnet publish --no-build --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --no-restore --nologo --configuration Release --runtime win-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -56,7 +56,7 @@ jobs:
         with:
           dotnet-version: 3.1.201
       - name: Publish win-x86
-        run: dotnet publish --no-build --nologo --configuration Release --runtime win-x86 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --no-restore --nologo --configuration Release --runtime win-x86 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -78,7 +78,7 @@ jobs:
         with:
           dotnet-version: 3.1.201
       - name: Publish macOS-x64
-        run: dotnet publish --no-build --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --no-restore --nologo --configuration Release --runtime osx-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Make Executable
         run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
       - run: ls -la ./ArtNetTimecodeConsole
@@ -103,7 +103,7 @@ jobs:
         with:
           dotnet-version: 3.1.201
       - name: Publish Linux-x64
-        run: dotnet publish --no-build --nologo --configuration Release --runtime linux-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
+        run: dotnet publish --no-restore --nologo --configuration Release --runtime linux-x64 --framework netcoreapp3.1 --no-self-contained --output ./ArtNetTimecodeConsole
       - name: Make Executable
         run: chmod ug+x ./ArtNetTimecodeConsole/ArtNetTimecode
       - run: ls -la ./ArtNetTimecodeConsole
