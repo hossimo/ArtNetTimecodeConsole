@@ -18,14 +18,11 @@ jobs:
           key: ${{ runner.os }}-${{ github.sha }}
 
   publish-win-x64:
-    on:
-        release:
-            types:
-                - prereleased
     name: Publish Windows x64
     needs: checkout
     runs-on: ubuntu-latest
     steps:
+      if: github.release.types.prereleased
       - name: Cache checkout
         uses: actions/cache@v1
         with:
