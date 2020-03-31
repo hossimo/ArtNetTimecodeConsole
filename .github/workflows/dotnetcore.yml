@@ -22,7 +22,6 @@ jobs:
     needs: checkout
     runs-on: ubuntu-latest
     steps:
-      if: github.release.types.prereleased
       - name: Cache checkout
         uses: actions/cache@v1
         with:
